@@ -1,0 +1,958 @@
+[
+    {
+        "id": "fbd5cdeba21c16f6",
+        "type": "tab",
+        "label": "Flow 6",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0b0c599b77471b07",
+        "type": "inject",
+        "z": "fbd5cdeba21c16f6",
+        "name": "initialization",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "db50ca3cb185ecab",
+                "5dfb3fe85aab1f23"
+            ]
+        ]
+    },
+    {
+        "id": "db50ca3cb185ecab",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "reset",
+        "func": "global.set(\"Status\", \"UNGOING\");\nglobal.set(\"ackCount\", 0);\nglobal.set(\"rowNum\", 1)\nglobal.set(\"msgNum\", 0);\nglobal.set(\"rowNumTemp\", 1);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5dfb3fe85aab1f23",
+        "type": "file in",
+        "z": "fbd5cdeba21c16f6",
+        "name": "readCSV",
+        "filename": "/home/iotpolimi/Downloads/challenge3.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 560,
+        "y": 100,
+        "wires": [
+            [
+                "9276f61c87c9d542"
+            ]
+        ]
+    },
+    {
+        "id": "9276f61c87c9d542",
+        "type": "csv",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "No.,Time,Source,Destination,Protocol,Length,Source Port,Destination Port,Info,Payload",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 750,
+        "y": 100,
+        "wires": [
+            [
+                "c22040a530e44c2d"
+            ]
+        ]
+    },
+    {
+        "id": "65a488dc299c70a5",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 66",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "c22040a530e44c2d",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "csvFileCh3",
+        "func": "var dataArray = msg.payload;\nglobal.set(\"myData\",dataArray);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 100,
+        "wires": [
+            [
+                "65a488dc299c70a5"
+            ]
+        ]
+    },
+    {
+        "id": "7c139ea57c70f7b2",
+        "type": "mqtt out",
+        "z": "fbd5cdeba21c16f6",
+        "name": "publish",
+        "topic": "challenge3/id_generator",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "62d3eb596440dae1",
+        "x": 1100,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "cfa32dedd6a24883",
+        "type": "inject",
+        "z": "fbd5cdeba21c16f6",
+        "name": "demo",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "dc0b0b371f414175"
+            ]
+        ]
+    },
+    {
+        "id": "31f2a763187955cb",
+        "type": "file",
+        "z": "fbd5cdeba21c16f6",
+        "name": "id_log.csv",
+        "filename": "/home/iotpolimi/Desktop/challenge3/id_log.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1100,
+        "y": 340,
+        "wires": [
+            [
+                "b74d02fbe3f918d7"
+            ]
+        ]
+    },
+    {
+        "id": "155866076419a63e",
+        "type": "csv",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "No.,ID,TIMESTAMP",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 890,
+        "y": 340,
+        "wires": [
+            [
+                "7c139ea57c70f7b2",
+                "31f2a763187955cb"
+            ]
+        ]
+    },
+    {
+        "id": "dc0b0b371f414175",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "csv_function",
+        "func": "let rowNum = global.get(\"rowNum\") || 1;\n\nconst id = Math.floor(Math.random() * 50001);\nconst timestamp = Math.floor(Date.now() / 1000);\n\nmsg.payload = JSON.stringify({\n    \"No.\": rowNum,\n    \"ID\": id,\n    \"TIMESTAMP\": timestamp\n});\n\nrowNum++;\nglobal.set(\"rowNum\", rowNum);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 340,
+        "wires": [
+            [
+                "7524e01cd4a26f7e"
+            ]
+        ]
+    },
+    {
+        "id": "b74d02fbe3f918d7",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 65",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "7524e01cd4a26f7e",
+        "type": "json",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "155866076419a63e"
+            ]
+        ]
+    },
+    {
+        "id": "b09feabd0c2e6416",
+        "type": "mqtt in",
+        "z": "fbd5cdeba21c16f6",
+        "name": "subscription",
+        "topic": "challenge3/id_generator",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "62d3eb596440dae1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 720,
+        "wires": [
+            [
+                "c96578b053664aa2"
+            ]
+        ]
+    },
+    {
+        "id": "919f164b1ffa8cd7",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 67",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "196ad3da3d0fe73d",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 68",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "c96578b053664aa2",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "GetN",
+        "func": "let msgNum = global.get(\"msgNum\") || 0;\n\nif(msgNum >= 80){\n    global.set(\"Status\",\"DONE\");\n    return null;\n}\n\nvar parts = msg.payload.split(',');\nvar id = parts[1];\nvar dataArray = global.get(\"myData\");\nvar desiredID =id % 7711;\n\nvar matchingObject = dataArray.filter(function(item){\n    return parseInt(item[\"No.\"])===desiredID;\n});\nmsg.payload = matchingObject;\n\nmsgNum++;\nglobal.set(\"msgNum\", msgNum);\n\n\nreturn msg;\n\n\n\n/**\n var msg ={\n    payload:desiredID\n};\n */",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 720,
+        "wires": [
+            [
+                "919f164b1ffa8cd7",
+                "6c984e56d48c1c4c",
+                "db4eaa10daebd147",
+                "4454c3e277c53714"
+            ]
+        ]
+    },
+    {
+        "id": "6294bac61ea6253c",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "PLOT",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1590,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "5069cb309c7ad450",
+        "type": "ui_chart",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "group": "57545cfa81764af3",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "temperature",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1590,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b1cb5900fb06e3c3",
+        "type": "http request",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=5XI8RPGST4ZPXAJ8&field1={{{payload}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1990,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c984e56d48c1c4c",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "filterAckMessage",
+        "func": "if(global.get(\"Status\")===\"DONE\"){\n    return;\n}\nvar dataArray = global.get(\"myData\");\nvar ackCount = global.get(\"ackCount\") || 0;\nvar matchingObject = msg.payload;\nvar noValue = msg.payload[0][\"No.\"];\n\nif(matchingObject && matchingObject[0].Info.includes(\"Ack\")){\n    global.set(\"matchObj\",matchingObject);\n    var ackRegex = /(Connect|Publish|Subscribe|Unsubscribe)\\sAck/;\n    var msgTypeMatch = matchingObject[0].Info.match(ackRegex);\n    var msgType = msgTypeMatch ? msgTypeMatch[0] : null;\n    msg.payload = JSON.stringify({\n        \"TIMESTAMP\": Math.floor(Date.now() / 1000),\n        \"SUB_ID\":noValue,\n        \"MSG_TYPE\":msgType\n    });\n    global.set(\"ackCount\", ackCount +1);\n    return msg;\n}else{\n    global.set(\"matchObj\",null);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 480,
+        "wires": [
+            [
+                "977a2053ccce3924",
+                "cb247a382a46ec0e"
+            ]
+        ]
+    },
+    {
+        "id": "977a2053ccce3924",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 69",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "cb247a382a46ec0e",
+        "type": "json",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1030,
+        "y": 480,
+        "wires": [
+            [
+                "5feaf10e09aa45b8",
+                "949d296165c50467"
+            ]
+        ]
+    },
+    {
+        "id": "5feaf10e09aa45b8",
+        "type": "csv",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "TIMESTAMP,SUB_ID,MSG_TYPE",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 1210,
+        "y": 480,
+        "wires": [
+            [
+                "46c4e901697493c5",
+                "f4707782999fdde6"
+            ]
+        ]
+    },
+    {
+        "id": "46c4e901697493c5",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 70",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1420,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "949d296165c50467",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 71",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "db4eaa10daebd147",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "filterPublishMessage",
+        "func": "if(global.get(\"Status\")===\"DONE\"){\n    return;\n}\nvar matchingObject = msg.payload;\nvar dataArray = global.get(\"myData\");\nvar noValue = msg.payload[0][\"No.\"];\n\n//version 1.1\nif(matchingObject && matchingObject[0].Info.includes(\"Publish Message\")){\n\n    global.set(\"matchObj\",matchingObject);\n    var topics = matchingObject[0].Info.match(/\\[([^)]+)\\]/g);\n   var payload = matchingObject[0].Payload||\"\";\n  \n   topics.forEach(function(topic) {\n        var publishMsg = {\n            payload: {\n                \"timestamp\": new Date().toISOString(),\n                \"id\": noValue,\n                \"payload\": payload\n            },\n            topic: topic\n        };\n\n        // Sending the publish message to the next node \n        node.send(publishMsg);\n    });\n}else{\n    global.set(\"matchObj\",null);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 740,
+        "wires": [
+            [
+                "196ad3da3d0fe73d",
+                "689bba531152fc5b"
+            ]
+        ]
+    },
+    {
+        "id": "b52d4e7218a78fe0",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "temperatureF",
+        "func": "/*\nvar desiredID=msg.payload;\nvar dataArray = global.get(\"myData\");\n\nvar matchingObject = dataArray.filter(function(item){\n    return parseInt(item[\"No.\"])===desiredID;\n});\n*/\n\nvar matchingObject = global.get(\"matchObj\");\nvar payload;\nif(matchingObject){\n    if (matchingObject[0].Payload == null) {\n    payload = \"\";\n    } else {\n        payload = matchingObject[0].Payload;\n        var data = JSON.parse(payload);\n        if (data.type === \"temperature\" && data.unit === \"F\") {\n            msg.payload = matchingObject;\n            return msg;\n        } else{\n            return null;\n        }\n    }\n}else{\n    return null;\n}\n\n\n\n\n\n\n\n/*\n\n\n//version 1.1\nif(matchingObject && matchingObject[0].Info.includes(\"Publish Message\")){\n   var topic = matchingObject[0].Info.match(/\\[([^)]+)\\]/)[1];\n   var payload;\n   if(matchingObject[0].Payload == null){\n    payload = \"\";\n   }else{\n     payload = matchingObject[0].Payload;\n   }\n    try{\n        var data = JSON.parse(payload);\n        if(data.type===\"temperature\"&&data.unit===\"F\"){\n        msg.payload=matchingObject;\n        return msg;\n        }\n\n    }catch(error){\n        node.error(\"malformd JSON\", msg);\n        return null;   \n    }\n   }\n\nelse{\n    return null;\n}\n\n*/\n\n/*\nvar msgOut={\n    payload:matchingObject\n};\nreturn msgOut;\n*/",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 960,
+        "wires": [
+            [
+                "edf5df2960402cc8",
+                "72f466c89bae2959",
+                "91b64715b16c2c19"
+            ]
+        ]
+    },
+    {
+        "id": "91b64715b16c2c19",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "perCsvWriter",
+        "func": "let rowNumTemp = flow.get(\"rowNumTemp\") || 1;\nvar dataObj=msg.payload;\nvar data = JSON.parse(dataObj[0].Payload);\n\nvar long = data.long;\nvar range = data.range;\nvar lat = data.lat;\nvar type=data.type;\nvar unit = data.unit;\nvar description = data.description;\n\nmsg.payload = JSON.stringify({\n    \"No.\": rowNumTemp,\n    \"LONG\": long,\n    \"RANGE\": range,\n    \"LAT\":lat,\n    \"TYPE\":type,\n    \"UNIT\":unit,\n    \"DESCRIPTION\":description,\n\n});\n\nrowNumTemp++;\nglobal.set(\"rowNumTemp\", rowNumTemp);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 1020,
+        "wires": [
+            [
+                "a202018d053d861f",
+                "8698bd9b4d9c239b"
+            ]
+        ]
+    },
+    {
+        "id": "a202018d053d861f",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "debug 72",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1600,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "f4707782999fdde6",
+        "type": "file",
+        "z": "fbd5cdeba21c16f6",
+        "name": "ack_log.csv",
+        "filename": "/home/iotpolimi/Desktop/challenge3/ack_log.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 1430,
+        "y": 480,
+        "wires": [
+            [
+                "da4c1f8d7f0e9474"
+            ]
+        ]
+    },
+    {
+        "id": "dc1543e964d8d780",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "AckCounter DEBUG",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1880,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "051d6be1e726d5b6",
+        "type": "file",
+        "z": "fbd5cdeba21c16f6",
+        "name": "filtered_publish.csv",
+        "filename": "/home/iotpolimi/Desktop/challenge3/filtered_pubs.csv",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1990,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f99fc255ce931d9b",
+        "type": "csv",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "No.,LONG,RANGE,LAT,TYPE,UNIT,DESCRIPTION",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 1750,
+        "y": 1100,
+        "wires": [
+            [
+                "051d6be1e726d5b6"
+            ]
+        ]
+    },
+    {
+        "id": "8698bd9b4d9c239b",
+        "type": "json",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1590,
+        "y": 1100,
+        "wires": [
+            [
+                "f99fc255ce931d9b"
+            ]
+        ]
+    },
+    {
+        "id": "da4c1f8d7f0e9474",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "getAckCount",
+        "func": "msg.payload = global.get(\"ackCount\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1610,
+        "y": 480,
+        "wires": [
+            [
+                "dc1543e964d8d780",
+                "b1cb5900fb06e3c3"
+            ]
+        ]
+    },
+    {
+        "id": "72f466c89bae2959",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "plotTemp",
+        "func": "var dataObj=msg.payload;\nvar data = JSON.parse(dataObj[0].Payload);\n\nif(data){\n    let tempRange = data.range;\n    let tempValue=(tempRange[0]+tempRange[1])/2;\n    msg.payload=tempValue;\n    return msg;\n\n}else{\n    return;\n}\n       ",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 960,
+        "wires": [
+            [
+                "6294bac61ea6253c",
+                "5069cb309c7ad450"
+            ]
+        ]
+    },
+    {
+        "id": "04b4fc8b31833344",
+        "type": "inject",
+        "z": "fbd5cdeba21c16f6",
+        "name": "reset chart",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "[]",
+        "payloadType": "json",
+        "x": 1380,
+        "y": 900,
+        "wires": [
+            [
+                "5069cb309c7ad450"
+            ]
+        ]
+    },
+    {
+        "id": "cb1d72389bef4453",
+        "type": "mqtt out",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "62d3eb596440dae1",
+        "x": 1250,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "edf5df2960402cc8",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "tempFFF",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "4454c3e277c53714",
+        "type": "function",
+        "z": "fbd5cdeba21c16f6",
+        "name": "testing",
+        "func": "msg.payload=global.get(\"msgNum\");\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 640,
+        "wires": [
+            [
+                "964032c5e690f354"
+            ]
+        ]
+    },
+    {
+        "id": "964032c5e690f354",
+        "type": "debug",
+        "z": "fbd5cdeba21c16f6",
+        "name": "numReceivedMessage DEBUG",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1110,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "689bba531152fc5b",
+        "type": "delay",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "4",
+        "timeoutUnits": "seconds",
+        "rate": "4",
+        "nbRateUnits": "1",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1050,
+        "y": 740,
+        "wires": [
+            [
+                "cb1d72389bef4453"
+            ]
+        ]
+    },
+    {
+        "id": "e6a18eeecb7284ea",
+        "type": "complete",
+        "z": "fbd5cdeba21c16f6",
+        "name": "",
+        "scope": [
+            "cb1d72389bef4453"
+        ],
+        "uncaught": false,
+        "x": 770,
+        "y": 960,
+        "wires": [
+            [
+                "b52d4e7218a78fe0"
+            ]
+        ]
+    },
+    {
+        "id": "62d3eb596440dae1",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1884",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "msg.payload",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "57545cfa81764af3",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "0ac55a66e3baff51",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0ac55a66e3baff51",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
